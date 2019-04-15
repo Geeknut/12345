@@ -110,7 +110,7 @@ $categories = ['Доски и лыжи', 'Крепления', 'Ботинки',
         </div>
         <ul class="lots__list">
             <!--заполните этот список из массива с товарами-->
-			<?php foreach ($lot as $key => $item) {?>
+			<?php foreach ($lots as $key => $item) {?>
 					
             <li class="lots__item lot">
                 <div class="lot__image">
