@@ -56,19 +56,14 @@ $user_name = 'Катя'; // укажите здесь ваше имя
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
 			<?php 
-			$categories = [
-			"Доски и лыжи", "Крепления", "Ботинки", "Одежда", "Инструменты", "Разное"
-			];
-			$index = 0;
-			$num_count = count($categories);
-			while ($index < $num_count) {
-			?>
+			$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+			
+			foreach ($categories as $category) :?>
 			
             <li class="promo__item promo__item--boards">
-                <a class="promo__link" href="pages/all-lots.html"><?= $categories[$index]; ?></a>
+                <a class="promo__link" href="pages/all-lots.html"><?= $category; ?></a>
             </li>
-			<?php $index = $index + 1;
-			} ?>
+			<?php endforeach; ?>
         </ul>
     </section>
     <section class="lots">
@@ -148,16 +143,13 @@ $user_name = 'Катя'; // укажите здесь ваше имя
     <nav class="nav">
         <ul class="nav__list container">
             <!--заполните этот список из массива категорий-->
-			<?php 
-			$index = 0;
-			while ($index < $num_count) {
-			?>
+			<?php foreach ($categories as $category) :?>
+			
             <li class="nav__item">
-                <a href="pages/all-lots.html"><?= $categories[$index]; ?></a>
+                <a href="pages/all-lots.html"><?= $category; ?></a>
             </li>
 			
-			<?php $index = $index + 1;
-			} ?>
+			<?php endforeach;?>
         </ul>
     </nav>
     <div class="main-footer__bottom container">
