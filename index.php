@@ -41,6 +41,8 @@ $lots = [
 		'url_img' => 'img/lot-6.jpg'
 	]
 ];
+
+$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -94,10 +96,7 @@ $lots = [
         <p class="promo__text">На нашем интернет-аукционе ты найдёшь самое эксклюзивное сноубордическое и горнолыжное снаряжение.</p>
         <ul class="promo__list">
             <!--заполните этот список из массива категорий-->
-			<?php 
-			$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
-			
-			foreach ($categories as $category) :?>
+			<?php foreach ($categories as $category) :?>
 			
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html"><?= $category; ?></a>
