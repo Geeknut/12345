@@ -47,6 +47,16 @@ $lots = [
 ];
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+
+const RUB = ' <b class="rub">₽</b>';
+
+function format_price ($price) {	
+	if ($price >= 1000) {
+		$price = number_format($price, 0, ',', ' ');
+	};
+	
+	return $price . RUB;
+}
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -114,7 +124,7 @@ $categories = ['Доски и лыжи', 'Крепления', 'Ботинки',
         </div>
         <ul class="lots__list">
             <!--заполните этот список из массива с товарами-->
-			<?php foreach ($lots as $lot) : ?>
+			<?php foreach ($lots as $lot) :?>
 					
             <li class="lots__item lot">
                 <div class="lot__image">
@@ -126,7 +136,7 @@ $categories = ['Доски и лыжи', 'Крепления', 'Ботинки',
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?= $lot['price']; ?><b class="rub">р</b></span>
+                            <span class="lot__cost"><?= format_price ($lot['price']); ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
