@@ -48,16 +48,14 @@ $lots = [
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
-function format_price ($price) {
-	$format_price='';
+const RUB = ' <b class="rub">₽</b>';
+
+function format_price ($price) {	
+	if ($price >= 1000) {
+		$price = number_format($price, 0, ',', ' ');
+	};
 	
-	if ($price < 1000) : 
-		$format_price = $price;		
-	else :
-		$format_price=number_format($price, 0, ',', ' ');	
-	endif;
-	
-	return $format_price;
+	return $price . RUB;
 }
 ?>
 <!DOCTYPE html>
@@ -138,7 +136,7 @@ function format_price ($price) {
                     <div class="lot__state">
                         <div class="lot__rate">
                             <span class="lot__amount">Стартовая цена</span>
-                            <span class="lot__cost"><?= format_price ($lot['price']).' '.'<b class="rub">₽</b>'; ?></span>
+                            <span class="lot__cost"><?= format_price ($lot['price']); ?></span>
                         </div>
                         <div class="lot__timer timer">
                             12:23
