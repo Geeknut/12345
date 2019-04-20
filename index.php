@@ -3,10 +3,12 @@ ini_set ('display_errors', 1);
 ini_set ('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+date_default_timezone_set('Europe/Moscow');
+
 $is_auth = rand(0, 1);
 
 require_once('helpers.php');
-
+	
 $user_name = 'Катя'; // укажите здесь ваше имя
 
 $lots = [
@@ -62,7 +64,11 @@ function format_price ($price) {
 
 $title = 'Главная';
 
-$page_content = include_template('index.php',['lots' => $lots, 'categories' => $categories]);
+$time_tomorrow = strtotime('tomorrow');
+$time_stop = $time_tomorrow - time();
+$cur_date = date('H:i',$time_stop);
+
+$page_content = include_template('index.php',['lots' => $lots, 'categories' => $categories, 'cur_date' => $cur_date]);
 
 $layout_content = include_template('layout.php',[
 	'content' => $page_content, 
