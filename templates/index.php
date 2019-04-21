@@ -8,7 +8,9 @@
             <li class="promo__item promo__item--boards">
                 <a class="promo__link" href="pages/all-lots.html"><?= htmlspecialchars($category); ?></a>
             </li>
-			<?php endforeach; ?>
+			<?php endforeach;
+
+		?>
         </ul>
     </section>
     <section class="lots">
@@ -31,9 +33,11 @@
                             <span class="lot__amount">Стартовая цена</span>
                             <span class="lot__cost"><?=format_price(htmlspecialchars($lot['price'])); ?></span>
                         </div>
-                        <div class="lot__timer timer">
-                            12:23
-                        </div>
+						
+					<div class="lot__timer timer <?= is_finishing('tomorrow') ? 'timer--finishing' : '' ?>">
+						<?=time_to_end('tomorrow');?>
+					</div>
+					
                     </div>
                 </div>
             </li>

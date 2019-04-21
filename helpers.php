@@ -13,6 +13,15 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
+date_default_timezone_set('Europe/Moscow');
+
+$is_auth = rand(0, 1);
+
+const RUB = ' <b class="rub">₽</b>';
+const HOUR = 3600;
+
+$title = 'Главная';
+
 function is_date_valid(string $date) : bool {
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
@@ -142,5 +151,46 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
+function format_price ($price) {
+    if ($price >= 1000) {
+        $price = number_format($price, 0, ',', ' ');
+    };
+
+    return $price . RUB;
+}
+
+function time_to_end($end_date) {
+    $end_time = strtotime($end_date);
+    $seconds_left = $end_time - time();
+    $hours = floor($seconds_left / HOUR);
+    $minutes = floor(($seconds_left % HOUR) / 60);
+    $hours = sprintf("%02d", $hours);
+    $minutes = sprintf("%02d", $minutes);
+    return $hours.':'.$minutes;
+};
+function is_finishing($end_date){
+    $end_time = strtotime($end_date);
+    $seconds_left = $end_time - time();
+    $hours = floor($seconds_left / HOUR);
+    if ($hours <= 0) {
+        return 1;
+    } else {
+        return 0;
+    };
+};
+
+$page_content = include_template('index.php',[
+    'lots' => $lots,
+    'categories' => $categories
+]);
+
+$layout_content = include_template('layout.php',[
+    'content' => $page_content,
+    'categories' => $categories,
+    'title' => $title,
+    'is_auth' => $is_auth,
+    'user_name' => $user_name
+]);
+print($layout_content);
 
 
