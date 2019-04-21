@@ -34,7 +34,7 @@
                             <span class="lot__cost"><?=format_price(htmlspecialchars($lot['price'])); ?></span>
                         </div>
 						
-					<div class="lot__timer timer <?= isFinishing('tomorrow') ? 'timer--finishing' : '' ?>">
+					<div class="lot__timer timer <?= is_finishing('tomorrow') ? 'timer--finishing' : '' ?>">
 						<?=time_to_end('tomorrow');?>
 					</div>
 					

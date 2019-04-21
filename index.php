@@ -53,6 +53,7 @@ $lots = [
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
 const RUB = ' <b class="rub">₽</b>';
+const HOUR = 3600;
 
 function format_price ($price) {	
 	if ($price >= 1000) {
@@ -63,26 +64,31 @@ function format_price ($price) {
 }
 
 $title = 'Главная';
-$endDate = '';
+$end_date = '';
 
-function time_to_end($endDate) {
-	$time_tomorrow = strtotime($endDate);
-	$cur_date = $time_tomorrow - time();
-	$hours = floor($cur_date / 3600);
-	$minutes = floor(($cur_date % 3600) / 60);
-	print("$hours:$minutes");
+function time_to_end($end_date) {
+	$end_time = strtotime($end_date);
+	$seconds_left = $end_time - time();
+	$hours = floor($seconds_left / HOUR);
+	$minutes = floor(($seconds_left % HOUR) / 60);	
+	sprintf('%02d-%02d', $minutes, $hours);	
+	return $hours.':'.$minutes;
 };
-function isFinishing($endDate){	
-	if ($hours <= 1) {
+function is_finishing($end_date){
+	$end_time = strtotime($end_date);
+	$seconds_left = $end_time - time();
+	$hours = floor($seconds_left / HOUR);	
+	if ($hours <= 0) {
+		return 1;
+	} else {	
 		return 0;
-	};	
-	return 1;
+	};
 };
 
 $page_content = include_template('index.php',[
 	'lots' => $lots, 
 	'categories' => $categories, 
-	'endDate' => $endDate
+	'end_date' => $end_date
 	]);
 
 $layout_content = include_template('layout.php',[
