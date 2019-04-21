@@ -34,15 +34,10 @@
                             <span class="lot__cost"><?=format_price(htmlspecialchars($lot['price'])); ?></span>
                         </div>
 						
-						<?php if (floor($cur_date) <= 1) {?>		
-							<div class="lot__timer timer timer--finishing">
-								<?=$cur_date?>
-							</div>
-						<?php } else { ?>
-							<div class="lot__timer timer">
-								<?=$cur_date?>
-							</div>
-						<?php } ?>
+					<div class="lot__timer timer <?= isFinishing('tomorrow') ? 'timer--finishing' : '' ?>">
+						<?=time_to_end('tomorrow');?>
+					</div>
+					
                     </div>
                 </div>
             </li>

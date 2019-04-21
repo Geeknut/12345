@@ -63,12 +63,27 @@ function format_price ($price) {
 }
 
 $title = 'Главная';
+$endDate = '';
 
-$time_tomorrow = strtotime('tomorrow');
-$time_stop = $time_tomorrow - time();
-$cur_date = date('H:i',$time_stop);
+function time_to_end($endDate) {
+	$time_tomorrow = strtotime($endDate);
+	$cur_date = $time_tomorrow - time();
+	$hours = floor($cur_date / 3600);
+	$minutes = floor(($cur_date % 3600) / 60);
+	print("$hours:$minutes");
+};
+function isFinishing($endDate){	
+	if ($hours <= 1) {
+		return 0;
+	};	
+	return 1;
+};
 
-$page_content = include_template('index.php',['lots' => $lots, 'categories' => $categories, 'cur_date' => $cur_date]);
+$page_content = include_template('index.php',[
+	'lots' => $lots, 
+	'categories' => $categories, 
+	'endDate' => $endDate
+	]);
 
 $layout_content = include_template('layout.php',[
 	'content' => $page_content, 
