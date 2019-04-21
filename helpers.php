@@ -13,6 +13,15 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
+date_default_timezone_set('Europe/Moscow');
+
+$is_auth = rand(0, 1);
+
+const RUB = ' <b class="rub">₽</b>';
+const HOUR = 3600;
+
+$title = 'Главная';
+
 function is_date_valid(string $date) : bool {
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
@@ -142,10 +151,6 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
-
-const RUB = ' <b class="rub">₽</b>';
-const HOUR = 3600;
-
 function format_price ($price) {
     if ($price >= 1000) {
         $price = number_format($price, 0, ',', ' ');
@@ -153,8 +158,6 @@ function format_price ($price) {
 
     return $price . RUB;
 }
-
-$title = 'Главная';
 
 function time_to_end($end_date) {
     $end_time = strtotime($end_date);
@@ -188,7 +191,6 @@ $layout_content = include_template('layout.php',[
     'is_auth' => $is_auth,
     'user_name' => $user_name
 ]);
-
 print($layout_content);
 
 
