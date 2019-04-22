@@ -2,6 +2,7 @@
 ini_set ('display_errors', 1);
 ini_set ('display_startup_errors', 1);
 error_reporting(E_ALL);
+require_once('helpers.php');
 
 $user_name = 'Катя'; // укажите здесь ваше имя
 
@@ -46,4 +47,19 @@ $lots = [
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
-require_once('helpers.php');
+
+
+
+$page_content = include_template('index.php',[
+    'lots' => $lots,
+    'categories' => $categories
+]);
+
+$layout_content = include_template('layout.php',[
+    'content' => $page_content,
+    'categories' => $categories,
+    'title' => $title,
+    'is_auth' => $is_auth,
+    'user_name' => $user_name
+]);
+print($layout_content);
