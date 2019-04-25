@@ -2,10 +2,12 @@
 ini_set ('display_errors', 1);
 ini_set ('display_startup_errors', 1);
 error_reporting(E_ALL);
+date_default_timezone_set('Europe/Moscow');
 require_once('helpers.php');
 
 $user_name = 'Катя'; // укажите здесь ваше имя
-
+$is_auth = rand(0, 1);
+$title = 'Главная';
 $lots = [
 	[
 		'title' => '2014 Rossignol District Snowboard',
@@ -47,9 +49,6 @@ $lots = [
 
 $categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
-
-
-
 $page_content = include_template('index.php',[
     'lots' => $lots,
     'categories' => $categories
@@ -62,4 +61,5 @@ $layout_content = include_template('layout.php',[
     'is_auth' => $is_auth,
     'user_name' => $user_name
 ]);
+
 print($layout_content);

@@ -1,4 +1,7 @@
 <?php
+const RUB = ' <b class="rub">₽</b>';
+const HOUR = 3600;
+
 /**
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
@@ -13,15 +16,6 @@
  *
  * @return bool true при совпадении с форматом 'ГГГГ-ММ-ДД', иначе false
  */
-date_default_timezone_set('Europe/Moscow');
-
-$is_auth = rand(0, 1);
-
-const RUB = ' <b class="rub">₽</b>';
-const HOUR = 3600;
-
-$title = 'Главная';
-
 function is_date_valid(string $date) : bool {
     $format_to_check = 'Y-m-d';
     $dateTimeObj = date_create_from_format($format_to_check, $date);
@@ -168,17 +162,15 @@ function time_to_end($end_date) {
     $minutes = sprintf("%02d", $minutes);
     return $hours.':'.$minutes;
 };
+
 function is_finishing($end_date){
     $end_time = strtotime($end_date);
     $seconds_left = $end_time - time();
-    $hours = floor($seconds_left / HOUR);
-    if ($hours <= 0) {
-        return 1;
-    } else {
-        return 0;
-    };
+    if ($seconds_left < 0) {
+        return false;
+    }
+    if ($seconds_left > HOUR ) {
+        return false;
+    }
+    return true;
 };
-
-
-
-
