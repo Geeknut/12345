@@ -5,44 +5,42 @@ USE yeticave;
 
 CREATE TABLE category (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title CHAR(128),
-    symbolic_code CHAR(64)
+    title VARCHAR(128) NOT NULL UNIQUE,
+    symbolic_code VARCHAR(64) UNIQUE
 );
 INSERT INTO category
 (title, symbolic_code) VALUES ('Доски и лыжи', 'boards'), ('Крепления', 'attachment'), ('Ботинки', 'boots'), ('Одежда', 'clothing'), ('Инструменты', 'tools'), ('Разное', 'other');
 
 CREATE TABLE lot (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    creation_date TIMESTAMP,
-    title CHAR(128),
-    description TEXT(500),
-    img_url VARCHAR(2083),
-    initial_price CHAR(64),
-    end_date TIMESTAMP,
-    step_rate CHAR(64),
-    author_id CHAR(64),
-    winner_id CHAR(64),
-    cat_id CHAR(64)
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    title VARCHAR(128) NOT NULL,
+    description TEXT(500) NOT NULL,
+    image VARCHAR(2083) NOT NULL,
+    initial_price INT NOT NULL,
+    end_time DATETIME NOT NULL,
+    step_rate INT NOT NULL,
+    author_id INT NOT NULL,
+    winner_id INT NOT NULL,
+    category_id INT NOT NULL
 );
 
 CREATE TABLE rate (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    rate_date TIMESTAMP,
-    price CHAR(128),
-    user_id CHAR(64),
-    lot_id CHAR(64)
+    rate_date TIMESTAMP NOT NULL,
+    price INT NOT NULL,
+    user_id INT NOT NULL,
+    lot_id INT NOT NULL
 
 );
 
 CREATE TABLE user (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    registration_date TIMESTAMP,
-    e_mail VARCHAR(320),
-    name CHAR(128),
-    password CHAR(64),
-    user_img VARCHAR(2083),
-    contacts TEXT(500),
-    lot_id CHAR(64),
-    rate_id CHAR(64)
+    registration_date TIMESTAMP NOT NULL,
+    e_mail VARCHAR(320) NOT NULL UNIQUE,
+    name VARCHAR(128) NOT NULL,
+    password VARCHAR(64) NOT NULL,
+    user_img VARCHAR(2083) NULL,
+    contacts TEXT(500) NOT NULL
 
 );
