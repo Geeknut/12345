@@ -166,7 +166,7 @@ function time_to_end($end_date) {
 function is_finishing($end_date){
     $end_time = strtotime($end_date);
     $seconds_left = $end_time - time();
-    if ($seconds_left < 0 || $seconds_left > HOUR) {
+    if ($seconds_left <= 0 || $seconds_left > HOUR) {
         return false;
     }
     return true;
