@@ -8,8 +8,6 @@ CREATE TABLE category (
     title VARCHAR(128) NOT NULL UNIQUE,
     code VARCHAR(64) UNIQUE
 );
-INSERT INTO category
-(title, code) VALUES ('Доски и лыжи', 'boards'), ('Крепления', 'attachment'), ('Ботинки', 'boots'), ('Одежда', 'clothing'), ('Инструменты', 'tools'), ('Разное', 'other');
 
 CREATE TABLE lot (
     id INT AUTO_INCREMENT PRIMARY KEY,
