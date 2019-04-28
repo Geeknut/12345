@@ -14,7 +14,7 @@ INSERT INTO rate
 SELECT id, title FROM category;
 
 /*показать самые новые, открытые лоты*/
-SELECT l.id, l.title, l.initial_price, l.image, l.category_id, r.price FROM lot l INNER JOIN rate r ON l.id = r.lot_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC;
+SELECT l.id, l.title, l.initial_price, l.image, l.category_id, MAX(r.price) FROM lot l LEFT JOIN rate r ON l.id = r.lot_id WHERE l.winner_id IS NULL GROUP BY l.id ORDER BY l.create_time DESC;
 
 /*показать лот по его id,а также название категории, к которой принадлежит лот*/
 SELECT l.title, c.title FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = '1';
@@ -23,4 +23,4 @@ SELECT l.title, c.title FROM lot l INNER JOIN category c ON c.id = l.category_id
 UPDATE lot SET title = 'DC' WHERE id = '1';
 
 /*получить список самых свежих ставок для лота по его идентификатору.*/
-SELECT r.create_time, r.price, u.name, l.title  FROM rate r INNER JOIN lot l ON r.lot_id = l.id INNER JOIN user u ON u.id = r.user_id WHERE l.id = '1' ORDER BY r.create_time DESC;
+SELECT r.create_time, r.price  FROM rate r INNER JOIN lot l ON r.lot_id = l.id WHERE l.id = '1' ORDER BY r.create_time DESC;
