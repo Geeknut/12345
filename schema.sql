@@ -9,6 +9,20 @@ CREATE TABLE category (
     code VARCHAR(64) UNIQUE
 );
 
+CREATE TABLE user (
+    id INT AUTO_INCREMENT PRIMARY KEY ,
+    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(320) NOT NULL UNIQUE,
+    name VARCHAR(128) NOT NULL,
+    password VARCHAR(64) NOT NULL,
+    avatar VARCHAR(2083) NULL,
+    contacts VARCHAR(500) NOT NULL
+
+);
+
+CREATE INDEX create_time_idx ON user(create_time);
+CREATE INDEX name_idx ON user(name);
+
 CREATE TABLE lot (
     id INT AUTO_INCREMENT PRIMARY KEY,
     create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -23,10 +37,20 @@ CREATE TABLE lot (
     category_id INT NOT NULL
 );
 
-CREATE INDEX create_time ON lot(create_time);
-CREATE INDEX title ON lot(title);
-CREATE INDEX user_id ON lot(user_id);
-CREATE INDEX category_id ON lot(category_id);
+ALTER TABLE lot
+    ADD FOREIGN KEY (category_id)
+        REFERENCES category(id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE lot
+    ADD FOREIGN KEY (winner_id)
+        REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE lot
+    ADD FOREIGN KEY (user_id)
+        REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
+
+CREATE INDEX create_time_idx ON lot(create_time);
+CREATE INDEX title_idx ON lot(title);
 
 CREATE TABLE rate (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -37,16 +61,12 @@ CREATE TABLE rate (
 
 );
 
-CREATE TABLE user (
-    id INT AUTO_INCREMENT PRIMARY KEY ,
-    create_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-    email VARCHAR(320) NOT NULL UNIQUE,
-    name VARCHAR(128) NOT NULL,
-    password VARCHAR(64) NOT NULL,
-    avatar VARCHAR(2083) NULL,
-    contacts VARCHAR(500) NOT NULL
+ALTER TABLE rate
+    ADD FOREIGN KEY (user_id)
+        REFERENCES user(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-);
+ALTER TABLE rate
+    ADD FOREIGN KEY (lot_id)
+        REFERENCES lot(id) ON DELETE CASCADE ON UPDATE CASCADE;
 
-CREATE INDEX create_time ON user(create_time);
-CREATE INDEX name ON user(name);
+CREATE INDEX create_time_idx ON rate(create_time);
