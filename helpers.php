@@ -145,7 +145,14 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
-function format_price ($price) {
+
+/**
+ * Ставит пробел после тысячи и добавляет знак рубля
+ * @param int $price цена
+ * @return string
+ */
+function format_price (int $price): string
+{
     if ($price >= 1000) {
         $price = number_format($price, 0, ',', ' ');
     };
@@ -153,7 +160,13 @@ function format_price ($price) {
     return $price . RUB;
 }
 
-function time_to_end($end_date) {
+/**
+ * Вычисляет кол-во часов и минут до указанной даты
+ * @param string $end_date дата
+ * @return string
+ */
+function time_to_end(string $end_date): string
+{
     $end_time = strtotime($end_date);
     $seconds_left = $end_time - time();
     $hours = floor($seconds_left / HOUR);
@@ -163,7 +176,13 @@ function time_to_end($end_date) {
     return $hours.':'.$minutes;
 };
 
-function is_finishing($end_date){
+/**
+ * Определяет что осталось меньше часа до окончания лота
+ * @param string $end_date дата
+ * @return bool
+ */
+function is_finishing(string $end_date): bool
+{
     $end_time = strtotime($end_date);
     $seconds_left = $end_time - time();
     if ($seconds_left <= 0 || $seconds_left > HOUR) {

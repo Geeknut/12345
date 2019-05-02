@@ -5,10 +5,23 @@ error_reporting(E_ALL);
 date_default_timezone_set('Europe/Moscow');
 require_once('helpers.php');
 
+$con = mysqli_connect("localhost", "root", "", "yeticave");
+
+mysqli_set_charset($con, "utf8_general_ci");
+
+
+$sql_cat = "SELECT title, code FROM category";
+$result_cat = mysqli_query($con, $sql_cat);
+$categories = mysqli_fetch_all($result_cat, MYSQLI_ASSOC);
+
+$sql_lot = 'SELECT l.title AS title, l.initial_price AS price, l.image AS url_img, c.title AS categories FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
+$result_lot = mysqli_query($con, $sql_lot);
+$lots = mysqli_fetch_all($result_lot, MYSQLI_ASSOC);
+
 $user_name = 'Катя'; // укажите здесь ваше имя
 $is_auth = rand(0, 1);
 $title = 'Главная';
-$lots = [
+/*$lots = [
 	[
 		'title' => '2014 Rossignol District Snowboard',
 		'categories' => 'Доски и лыжи',
@@ -45,9 +58,9 @@ $lots = [
 		'price' => '5400',
 		'url_img' => 'img/lot-6.jpg'
 	]
-];
+];*/
 
-$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
+//$categories = ['Доски и лыжи', 'Крепления', 'Ботинки', 'Одежда', 'Инструменты', 'Разное'];
 
 $page_content = include_template('index.php',[
     'lots' => $lots,
