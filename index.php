@@ -8,8 +8,6 @@ $config = require 'config.php';
 
 $connection = db_connect($config['db']);
 
-mysqli_set_charset($connection, "utf8_general_ci");
-
 $categories = get_categories($connection);
 
 $lots = get_lots($connection);
