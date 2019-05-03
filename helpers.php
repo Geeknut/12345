@@ -190,3 +190,57 @@ function is_finishing(string $end_date): bool
     }
     return true;
 };
+
+/**
+ * Соединение с БД
+ * @param $config_db
+ * @return false|mysqli
+ */
+
+function db_connect($config_db)
+{
+    $connection = mysqli_connect(
+        $config_db['host'],
+        $config_db['user'],
+        $config_db['password'],
+        $config_db['database']
+    );
+
+    if (!$connection) {
+        $error = mysqli_connect_error();
+        die('Ошибка при подключении к БД: ' . $error);
+    }
+
+    mysqli_set_charset($connection, 'utf8');
+
+    return $connection;
+}
+
+/**
+ * Запрос на вывод категорий
+ * @param $connection
+ * @return array|null
+ */
+function get_categories($connection)
+{
+    $sql = "SELECT title, code FROM category";
+    $result = mysqli_query($connection, $sql);
+    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $categories;
+}
+
+/**
+ * Запрос на вывод лотов
+ * @param $connection
+ * @return array|null
+ */
+
+function get_lots($connection)
+{
+    $sql = 'SELECT l.title AS title, l.initial_price AS price, l.image AS url_img, c.title AS categories FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
+    $result = mysqli_query($connection, $sql);
+    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $lots;
+}
