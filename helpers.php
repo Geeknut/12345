@@ -145,7 +145,14 @@ function include_template($name, array $data = []) {
 
     return $result;
 }
-function format_price ($price) {
+
+/**
+ * Ставит пробел после тысячи и добавляет знак рубля
+ * @param int $price цена
+ * @return string
+ */
+function format_price (int $price): string
+{
     if ($price >= 1000) {
         $price = number_format($price, 0, ',', ' ');
     };
@@ -153,7 +160,13 @@ function format_price ($price) {
     return $price . RUB;
 }
 
-function time_to_end($end_date) {
+/**
+ * Вычисляет кол-во часов и минут до указанной даты
+ * @param string $end_date дата
+ * @return string
+ */
+function time_to_end(string $end_date): string
+{
     $end_time = strtotime($end_date);
     $seconds_left = $end_time - time();
     $hours = floor($seconds_left / HOUR);
@@ -163,7 +176,13 @@ function time_to_end($end_date) {
     return $hours.':'.$minutes;
 };
 
-function is_finishing($end_date){
+/**
+ * Определяет что осталось меньше часа до окончания лота
+ * @param string $end_date дата
+ * @return bool
+ */
+function is_finishing(string $end_date): bool
+{
     $end_time = strtotime($end_date);
     $seconds_left = $end_time - time();
     if ($seconds_left <= 0 || $seconds_left > HOUR) {
@@ -171,3 +190,57 @@ function is_finishing($end_date){
     }
     return true;
 };
+
+/**
+ * Соединение с БД
+ * @param $config_db
+ * @return false|mysqli
+ */
+
+function db_connect($config_db)
+{
+    $connection = mysqli_connect(
+        $config_db['host'],
+        $config_db['user'],
+        $config_db['password'],
+        $config_db['database']
+    );
+
+    if (!$connection) {
+        $error = mysqli_connect_error();
+        die('Ошибка при подключении к БД: ' . $error);
+    }
+
+    mysqli_set_charset($connection, 'utf8');
+
+    return $connection;
+}
+
+/**
+ * Запрос на вывод категорий
+ * @param $connection
+ * @return array|null
+ */
+function get_categories($connection)
+{
+    $sql = "SELECT title, code FROM category";
+    $result = mysqli_query($connection, $sql);
+    $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $categories;
+}
+
+/**
+ * Запрос на вывод лотов
+ * @param $connection
+ * @return array|null
+ */
+
+function get_lots($connection)
+{
+    $sql = 'SELECT l.title AS title, l.initial_price AS price, l.image AS url_img, c.title AS categories FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
+    $result = mysqli_query($connection, $sql);
+    $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $lots;
+}
