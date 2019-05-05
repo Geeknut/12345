@@ -246,43 +246,16 @@ function get_lots($connection)
 }
 
 /**
- * Запрос на вывод лота по id
+ * Получение данных лота по id
  * @param $connection
  * @return array|null
  */
 
-function get_lot($connection)
+function get_lot($connection, $id)
 {
-    $categories = get_categories($connection);
-    if (isset($_GET['id'])) {
-        $id_lot = $_GET['id'];
+    $sql = 'SELECT l.id, l.title, l.description, l.image, l.initial_price, l.end_time, l.step_rate, c.title AS category_title FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = '.$id;
+    $result = mysqli_query($connection, $sql);
+    $lot = mysqli_fetch_assoc($result);
 
-        $sql = 'SELECT l.id, l.title, l.description, l.image, l.initial_price, l.end_time, l.step_rate, c.title AS category_title FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = ' . $id_lot;
-        $result = mysqli_query($connection, $sql);
-        $count = mysqli_num_rows($result);
-        if ($count > 0) {
-            $lot = mysqli_fetch_assoc($result);
-
-            $page_content = include_template('lot.php',[
-                'lot' => $lot,
-                'categories' => $categories
-            ]);
-
-        } else {
-            $page_content = include_template('error.php',[
-                'categories' => $categories
-            ]);
-        }
-
-    } else {
-        $page_content = include_template('error.php',[
-            'categories' => $categories
-        ]);
-    }
-
-    return $page_content;
+    return $lot;
 }
-
-
-
-
