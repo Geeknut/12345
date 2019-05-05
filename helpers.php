@@ -238,7 +238,7 @@ function get_categories($connection)
 
 function get_lots($connection)
 {
-    $sql = 'SELECT l.id AS id, l.title AS title, l.initial_price AS price, l.image AS url_img, c.title AS categories FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
+    $sql = 'SELECT l.id, l.title AS lot_title, l.initial_price, l.image, c.title AS category_title FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
     $result = mysqli_query($connection, $sql);
     $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
@@ -257,11 +257,11 @@ function get_lot($connection)
     if (isset($_GET['id'])) {
         $id_lot = $_GET['id'];
 
-        $sql = 'SELECT l.id AS id, l.title AS title, l.description AS description, l.image AS image, l.initial_price AS initial_price, l.end_time AS end_time, l.step_rate AS step_rate, c.title AS cat FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = ' . $id_lot;
+        $sql = 'SELECT l.id, l.title, l.description, l.image, l.initial_price, l.end_time, l.step_rate, c.title AS category_title FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = ' . $id_lot;
         $result = mysqli_query($connection, $sql);
         $count = mysqli_num_rows($result);
         if ($count > 0) {
-            $lot = mysqli_fetch_all($result, MYSQLI_ASSOC);
+            $lot = mysqli_fetch_assoc($result);
 
             $page_content = include_template('lot.php',[
                 'lot' => $lot,

@@ -9,15 +9,13 @@
         </ul>
     </nav>
     <section class="lot-item container">
-        <?php foreach ($lot as $lot) :?>
         <h2><?=htmlspecialchars($lot['title']); ?></h2>
-
         <div class="lot-item__content">
             <div class="lot-item__left">
                 <div class="lot-item__image">
-                    <img src="../img/lot-image.jpg" width="730" height="548" alt="Сноуборд">
+                    <img src="<?=htmlspecialchars($lot['image']); ?>" width="730" height="548" alt="Сноуборд">
                 </div>
-                <p class="lot-item__category">Категория: <span><?=htmlspecialchars($lot['cat']); ?></span></p>
+                <p class="lot-item__category">Категория: <span><?=htmlspecialchars($lot['category_title']); ?></span></p>
                 <p class="lot-item__description"><?=htmlspecialchars($lot['description']); ?></p>
             </div>
             <div class="lot-item__right">
@@ -43,8 +41,6 @@
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>
                 </div>
-
-                <?php endforeach;?>
 
                 <div class="history">
                     <h3>История ставок (<span>10</span>)</h3>
