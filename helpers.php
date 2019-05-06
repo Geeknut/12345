@@ -238,9 +238,24 @@ function get_categories($connection)
 
 function get_lots($connection)
 {
-    $sql = 'SELECT l.title AS title, l.initial_price AS price, l.image AS url_img, c.title AS categories FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
+    $sql = 'SELECT l.id, l.title AS lot_title, l.initial_price, l.image, c.title AS category_title FROM lot l JOIN category c ON c.id = l.category_id WHERE l.winner_id IS NULL ORDER BY l.create_time DESC';
     $result = mysqli_query($connection, $sql);
     $lots = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
     return $lots;
+}
+
+/**
+ * Получение данных лота по id
+ * @param $connection
+ * @return array|null
+ */
+
+function get_lot(mysqli $connection, int $id) : ?array
+{
+    $sql = 'SELECT l.id, l.title, l.description, l.image, l.initial_price, l.end_time, l.step_rate, c.title AS category_title FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = '.$id;
+    $result = mysqli_query($connection, $sql);
+    $lot = mysqli_fetch_assoc($result);
+
+    return $lot;
 }
