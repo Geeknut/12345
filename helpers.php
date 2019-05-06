@@ -251,7 +251,7 @@ function get_lots($connection)
  * @return array|null
  */
 
-function get_lot($connection, $id)
+function get_lot(mysqli $connection, int $id) : ?array
 {
     $sql = 'SELECT l.id, l.title, l.description, l.image, l.initial_price, l.end_time, l.step_rate, c.title AS category_title FROM lot l INNER JOIN category c ON c.id = l.category_id WHERE l.id = '.$id;
     $result = mysqli_query($connection, $sql);

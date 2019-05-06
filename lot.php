@@ -13,24 +13,26 @@ $title = '';
 $connection = db_connect($config['db']);
 $categories = get_categories($connection);
 
+$id = $_GET['id'] ?? null;
+if (!$id) {
+    die('Отсутствует обязательный параметр в запросе');
+}
+
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $lot = get_lot($connection, $id);
 
-    if ($lot == NULL){
-        $page_content = include_template('error.php',[
-            'categories' => $categories
-        ]);
-    } else {
+    if ($lot) {
         $page_content = include_template('lot.php',[
             'lot' => $lot,
             'categories' => $categories
         ]);
+    } else {
+        http_response_code(404);
+        $page_content = include_template('error.php',[
+            'categories' => $categories
+        ]);
     }
-} else {
-    $page_content = include_template('error.php',[
-        'categories' => $categories
-    ]);
 }
 
 $layout_content = include_template('layout.php',[
