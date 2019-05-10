@@ -223,7 +223,7 @@ function db_connect($config_db)
  */
 function get_categories($connection)
 {
-    $sql = "SELECT title, code FROM category";
+    $sql = "SELECT id, title, code FROM category";
     $result = mysqli_query($connection, $sql);
     $categories = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
