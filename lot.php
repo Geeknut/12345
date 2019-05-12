@@ -1,13 +1,7 @@
 <?php
-ini_set ('display_errors', 1);
-ini_set ('display_startup_errors', 1);
-error_reporting(E_ALL);
-date_default_timezone_set('Europe/Moscow');
-require_once('helpers.php');
-$config = require 'config.php';
+require_once 'bootstrap.php';
 
-$user_name = 'Катя'; // укажите здесь ваше имя
-$is_auth = rand(0, 1);
+
 $title = '';
 
 $connection = db_connect($config['db']);
@@ -21,10 +15,12 @@ if (!$id) {
 $lot = get_lot($connection, $id);
 
 if ($lot) {
+    $title = $lot['title'];
     $page_content = include_template('lot.php',[
         'lot' => $lot,
         'categories' => $categories
     ]);
+
 } else {
     http_response_code(404);
     $page_content = include_template('error.php',[
