@@ -84,11 +84,12 @@ function validate_lot_image($file_data)
  * @param $initial_price
  * @return string|null
  */
-function validate_lot_initial_price($initial_price) {
+function validate_lot_initial_price(int $initial_price) {
     if (empty($initial_price)) {
         return 'Нужно заполнить поле цены';
-    } elseif ($_POST['initial_price'] <= 0 ) {
-        $errors['initial_price'] = 'Цена должна быть больше нуля';
+    }
+    if ($initial_price <= 0 ) {
+        return 'Цена должна быть больше нуля';
     }
 
     return null;
@@ -115,8 +116,9 @@ function validate_lot_end_time($end_time) {
 function validate_lot_step_rate($step_rate) {
     if (empty($step_rate)) {
         return 'Нужно заполнить поле шаг ставки';
-    } elseif ($_POST['step_rate'] <= 0 ) {
-        $errors['step_rate'] = 'Шаг ставки должен быть больше нуля';
+    }
+    if ($step_rate <= 0 ) {
+        return 'Шаг ставки должен быть больше нуля';
     }
 
     return null;
