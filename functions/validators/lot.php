@@ -20,41 +20,156 @@ function is_date_valid(string $date) : bool {
     return $dateTimeObj !== false && array_sum(date_get_last_errors()) === 0;
 }
 
+/**
+ * Проверяет на ошибки поле название
+ * @param $title
+ * @return string|null
+ */
 
-function validate_lot($lot) {
+function validate_lot_title($title) {
+    if (empty($title)) {
+        return 'Нужно заполнить название лота';
+    } elseif (mb_strlen($title) > 128) {
 
-
-    $required = ['title', 'message', 'initial_price', 'initial_price', 'category', 'lot_date'];
-
-    $errors = [];
-    foreach ($required as $key) {
-        if (empty($_POST[$key])) {
-            $errors[$key] = 'Это поле надо заполнить';
-        }
+        return 'Длина названия не должна быть больше 128 символов';
     }
 
-    if ($_FILES['lot_img']['name']!= 0) {
+    return null;
+}
 
-        $tmp_name = $_FILES['lot_img']['tmp_name'];
-        $path = $_FILES['lot_img']['name'];
+/**
+ * Проверяет на ошибки поле описание
+ * @param $description
+ * @return string|null
+ */
+function validate_lot_description($description) {
+    if (empty($description)) {
+        return 'Нужно заполнить описание лота';
+    } elseif (mb_strlen($description) > 500) {
+        return 'Длина названия не должна быть больше 500 символов';
+    }
+
+    return null;
+}
+
+/**
+ * Проверяет на ошибки поле изображение
+ * @param $file_data
+ * @return string|null
+ */
+function validate_lot_image($file_data)
+{
+
+    if ($file_data['error'] !== UPLOAD_ERR_NO_FILE) {
+
+        $tmp_name = $file_data['tmp_name'];
+        $path = $file_data['name'];
 
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
 
         $file_type = finfo_file($finfo, $tmp_name);
 
-        if ($file_type !== "image/jpeg") {
-            $errors['file'] = 'Загрузите картинку в формате jpg';
+        if ($file_type == "image/jpeg" || $file_type == "image/png") {
+            return null;
+        } else {
+            return 'Загрузите картинку в формате jpg или png';
         }
-    } else {
-        $errors['file'] = 'Вы не загрузили файл';
     }
 
-    if ($_POST['initial_price'] <= 0 ) {
-        $errors['initial_price'] = 'Цена болжна быть больше нуля';
+    return 'Вы не загрузили файл';
+}
+
+/**
+ * Проверяет на ошибки поле цена
+ * @param $initial_price
+ * @return string|null
+ */
+function validate_lot_initial_price($initial_price) {
+    if (empty($initial_price)) {
+        return 'Нужно заполнить поле цены';
+    } elseif ($_POST['initial_price'] <= 0 ) {
+        $errors['initial_price'] = 'Цена должна быть больше нуля';
     }
 
-    if ($_POST['step_rate'] <= 0 ) {
+    return null;
+}
+
+/**
+ * Проверяет на ошибки поле дата окончания торгов
+ * @param $end_time
+ * @return string|null
+ */
+function validate_lot_end_time($end_time) {
+    if (empty($end_time)) {
+        return 'Нужно заполнить дату окончания торгов';
+    }
+
+    return null;
+}
+
+/**
+ * Проверяет на ошибки поле шаг ставки
+ * @param $step_rate
+ * @return string|null
+ */
+function validate_lot_step_rate($step_rate) {
+    if (empty($step_rate)) {
+        return 'Нужно заполнить поле шаг ставки';
+    } elseif ($_POST['step_rate'] <= 0 ) {
         $errors['step_rate'] = 'Шаг ставки должен быть больше нуля';
+    }
+
+    return null;
+}
+
+/**
+ * Проверяет на ошибки поле катерогия лота
+ * @param $category_id
+ * @return string|null
+ */
+function validate_lot_category_id($category_id) {
+    if (empty($category_id)) {
+        return 'Выберите категорию лота';
+    }
+
+    return null;
+}
+
+/**
+ * Проверка массива ошибок на заполненность
+ * @param $lot
+ * @param $file_data
+ * @return array
+ */
+function validate_lot($lot, $file_data) {
+    $errors = [];
+
+    if ($error = validate_lot_title($lot['title'])){
+        $errors['title'] = $error;
+    }
+
+    if ($error = validate_lot_image($file_data)){
+        $errors['image'] = $error;
+    }
+
+    if ($error = validate_lot_description($lot['description'])){
+        $errors['description'] = $error;
+    }
+
+    if ($error = validate_lot_end_time($lot['end_time'])){
+        $errors['end_time'] = $error;
+    }
+
+    if ($error = validate_lot_initial_price($lot['initial_price'])){
+        $errors['initial_price'] = $error;
+    }
+
+    if ($error = validate_lot_step_rate($lot['step_rate'])){
+        $errors['step_rate'] = $error;
+    }
+
+    if ($error = validate_lot_category_id($lot['category_id'])){
+        $errors['category_id'] = $error;
     }
 
     return $errors;

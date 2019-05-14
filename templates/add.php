@@ -19,27 +19,27 @@
                 <input id="lot-name" type="text" name="title" placeholder="Введите наименование лота" value="<?=$value;?>">
                 <span class="form__error ">Введите наименование лота</span>
             </div>
-            <?php $classname = isset($errors['category']) ? "form__item--invalid" : "";
-            $value = isset($lot['category']) ? $lot['category'] : ""; ?>
-            <div class="form__item <?=$classname;?>">
+            <?php $classname = isset($errors['category_id']) ? "form__item--invalid" : "";
+            $value = isset($lot['category_id']) ? $lot['category_id'] : ""; ?>
+            <div class="form__item">
                 <label for="category">Категория <sup>*</sup></label>
 
-                <select id="category" name="category">
+                <select id="category" name="category_id" value="<?=$value;?>">
 
                     <option value="">Выберите категорию</option>
                     <?php foreach ($categories as $category) :?>
                     <option value="<?= htmlspecialchars($category['id']); ?>"><?= htmlspecialchars($category['title']); ?></option>
                     <?php endforeach;?>
                 </select>
-                <span class="form__error">Выберите категорию</span>
+                <span class="form__error <?=$classname;?>">Выберите категорию</span>
             </div>
         </div>
 
-        <?php $classname = isset($errors['message']) ? "form__item--invalid" : "";
-        $value = isset($lot['message']) ? $lot['message'] : ""; ?>
+        <?php $classname = isset($errors['description']) ? "form__item--invalid" : "";
+        $value = isset($lot['description']) ? $lot['description'] : ""; ?>
         <div class="form__item form__item--wide <?=$classname;?>">
             <label for="message">Описание <sup>*</sup></label>
-            <textarea id="message" name="message" placeholder="Напишите описание лота" value="<?=$value;?>"></textarea>
+            <textarea id="message" name="description" placeholder="Напишите описание лота" value="<?=$value;?>"></textarea>
 
             <span class="form__error <?=$classname;?>">Напишите описание лота</span>
         </div>
@@ -48,7 +48,7 @@
         <div class="form__item form__item--file">
             <label>Изображение <sup>*</sup></label>
             <div class="form__input-file">
-                <input class="visually-hidden" type="file" id="lot-img" name="lot_img" value="">
+                <input class="visually-hidden" type="file" id="lot-img" name="image" value="">
                 <label for="lot-img">
                     Добавить
                 </label>
@@ -69,11 +69,11 @@
                 <input id="lot-step" type="text" name="step_rate" placeholder="0"  value="<?=$value;?>">
                 <span class="form__error">Введите шаг ставки</span>
             </div>
-            <?php $classname = isset($errors['lot_date']) ? "form__item--invalid" : "";
-            $value = isset($lot['lot_date']) ? $lot['lot_date'] : ""; ?>
+            <?php $classname = isset($errors['end_time']) ? "form__item--invalid" : "";
+            $value = isset($lot['end_time']) ? $lot['end_time'] : ""; ?>
             <div class="form__item  <?=$classname;?>">
                 <label for="lot-date">Дата окончания торгов <sup>*</sup></label>
-                <input class="form__input-date" id="lot-date" type="text" name="lot_date" placeholder="Введите дату в формате ГГГГ-ММ-ДД"  value="<?=$value;?>">
+                <input class="form__input-date" id="lot-date" type="text" name="end_time" placeholder="Введите дату в формате ГГГГ-ММ-ДД"  value="<?=$value;?>">
                 <span class="form__error">Введите дату завершения торгов</span>
             </div>
         </div>
@@ -81,7 +81,7 @@
         <span class="form__error form__error--bottom">Пожалуйста, исправьте ошибки в форме.</span>
         <ul>
         <?php foreach ($errors as $err =>$val):?>
-        <li><strong><?=$dict[$err];?>:</strong> <?=$val;?></li>
+        <li><?=$val;?></li>
         <?php endforeach; ?>
         </ul>
         <?php endif;?>
