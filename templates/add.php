@@ -28,7 +28,7 @@
 
                     <option value="<?=$value;?>">Выберите категорию</option>
                     <?php foreach ($categories as $category) :?>
-                    <option value="<?=htmlspecialchars($category['id']); ?>" <?php if(isset($lot['category_id']) && $lot['category_id'] === $category['id']) echo "selected"; ?>><?= htmlspecialchars($category['title']); ?></option>
+                    <option value="<?=htmlspecialchars($category['id']); ?>" <?php if(isset($lot['category_id']) && $lot['category_id'] === (int)$category['id']) echo "selected"; ?>><?= htmlspecialchars($category['title']);?></option>
                     <?php endforeach;?>
                 </select>
                 <span class="form__error"><?=$errors['category_id']?></span>
