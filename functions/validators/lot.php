@@ -21,6 +21,23 @@ function is_date_valid(string $date) : bool {
 }
 
 /**
+ * Проверка на существование элементы в форме
+ * @param array $array
+ * @return array
+ */
+function getLotData(array $array) : array
+{
+    $lot_data['title'] = $array['title'] ?? null;
+    $lot_data['description'] = $array['description'] ?? null;
+    $lot_data['end_time'] = $array['end_time'] ?? null;
+    $lot_data['initial_price'] = isset($array['initial_price'] ) ? (int)$array['initial_price'] : null;
+    $lot_data['step_rate'] = isset($array['step_rate'] ) ? (int)$array['step_rate'] : null;
+    $lot_data['category_id'] = isset($array['category_id'] ) ? (int)$array['category_id'] : null;
+
+    return $lot_data;
+}
+
+/**
  * Проверяет на ошибки поле название
  * @param $title
  * @return string|null
@@ -176,3 +193,4 @@ function validate_lot($lot, $file_data) {
 
     return $errors;
 }
+

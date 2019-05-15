@@ -7,8 +7,10 @@ $title = 'Добавление лота';
 $connection = db_connect($config['db']);
 $categories = get_categories($connection);
 
+$lot_data = getLotData($_POST);
+
 if ($_SERVER['REQUEST_METHOD']==='POST') {
-    $lot_data = $_POST;
+
     $file_data = $_FILES['image'] ?? null;
 
     $errors = validate_lot($lot_data, $file_data);
