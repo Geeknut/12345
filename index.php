@@ -1,10 +1,5 @@
 <?php
-ini_set ('display_errors', 1);
-ini_set ('display_startup_errors', 1);
-error_reporting(E_ALL);
-date_default_timezone_set('Europe/Moscow');
-require_once('helpers.php');
-$config = require 'config.php';
+require_once 'bootstrap.php';
 
 $connection = db_connect($config['db']);
 
@@ -12,8 +7,6 @@ $categories = get_categories($connection);
 
 $lots = get_lots($connection);
 
-$user_name = 'Катя'; // укажите здесь ваше имя
-$is_auth = rand(0, 1);
 $title = 'Главная';
 
 $page_content = include_template('index.php',[
