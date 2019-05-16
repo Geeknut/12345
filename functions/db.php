@@ -147,3 +147,34 @@ function add_lot(mysqli $connection, $lot_data) {
     return $lot_id;
 }
 
+function add_user(mysqli $connection, $user_data) {
+    $sgl = 'INSERT INTO user (email, name, password, contacts) VALUES (?, ?, ?, ? )';
+
+    $stmt = db_get_prepare_stmt($connection, $sgl, [
+        $user_data['email'],
+        $user_data['name'],
+        password_hash($user_data['password'], PASSWORD_DEFAULT),
+        $user_data['contacts']
+    ]);
+
+    $res = mysqli_stmt_execute($stmt);
+
+    if (!$res) {
+        die('Ошибка в выполнении запроса');
+    }
+    
+    $user_id = mysqli_insert_id($connection);
+
+    return $user_id;
+}
+
+function find_email (mysqli $connection, $email): ?array {
+    $sql = "SELECT id FROM `user` WHERE email = '$email'";
+    $result = mysqli_query($connection, $sql);
+    $user_id = mysqli_fetch_assoc($result);
+
+
+
+    return $user_id;
+}
+
