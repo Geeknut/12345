@@ -81,7 +81,5 @@ function validate_sign_up($user, $connection) {
         $errors['contacts'] = $error;
     }
 
-
-
 return $errors;
 }

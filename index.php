@@ -1,6 +1,5 @@
 <?php
 require_once 'bootstrap.php';
-
 $connection = db_connect($config['db']);
 
 $categories = get_categories($connection);

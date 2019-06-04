@@ -1,33 +1,37 @@
 <?php
 require_once 'bootstrap.php';
-require_once 'functions/validators/sign-up.php';
+require_once 'functions/validators/login.php';
 
 $title = 'Регистрация пользователя';
 
 $connection = db_connect($config['db']);
 $categories = get_categories($connection);
 
-$user_data = getUserData($_POST);
+$login_data = getLoginData($_POST);
 
 if ($_SERVER['REQUEST_METHOD']==='POST') {
 
-    $errors = validate_sign_up($user_data, $connection);
+    $errors = validate_login($login_data, $connection);
 
-    if (!$errors) {
-        $user_id = add_user($connection, $user_data);
-        header("Location: /login.php");
+    if (!$errors ) {
+        session_start();
+        $user_name = find_name($connection, $login_data['email']);
+        $_SESSION['username'] = $user_name;
+        setcookie('username', $user_name, time()+60*60*24*30);
+        header("Location: /");
+
 
     } else {
-        $page_content = include_template('sign-up.php', [
+        $page_content = include_template('login.php', [
             'categories' => $categories,
-            'user_data' => $user_data,
+            'user_data' => $login_data,
             'errors' => $errors
         ]);
 
     }
 
 } else {
-    $page_content = include_template('sign-up.php', ['categories' => $categories]);
+    $page_content = include_template('login.php', ['categories' => $categories]);
 }
 
 $layout_content = include_template('layout.php',[

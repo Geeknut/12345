@@ -122,6 +122,12 @@ function get_lot(mysqli $connection, int $id): ?array
     return $lot;
 }
 
+/**
+ * Запрос на добавление лота
+ * @param mysqli $connection
+ * @param $lot_data
+ * @return int|string
+ */
 function add_lot(mysqli $connection, $lot_data) {
     $sgl = 'INSERT INTO lot
 (title, description, image, initial_price, end_time, step_rate, user_id, winner_id, category_id) VALUES (?, ?, ?, ?, ?, ?, 1, NULL, ? )';
@@ -147,6 +153,12 @@ function add_lot(mysqli $connection, $lot_data) {
     return $lot_id;
 }
 
+/**
+ * Запрос на добавление пользователя
+ * @param mysqli $connection
+ * @param $user_data
+ * @return int|string
+ */
 function add_user(mysqli $connection, $user_data) {
     $sgl = 'INSERT INTO user (email, name, password, contacts) VALUES (?, ?, ?, ? )';
 
@@ -168,13 +180,48 @@ function add_user(mysqli $connection, $user_data) {
     return $user_id;
 }
 
+/**
+ * Получение id пользовалеля по e-mail
+ * @param mysqli $connection
+ * @param $email
+ * @return array|null
+ */
 function find_email (mysqli $connection, $email): ?array {
     $sql = "SELECT id FROM `user` WHERE email = '$email'";
     $result = mysqli_query($connection, $sql);
     $user_id = mysqli_fetch_assoc($result);
 
-
-
     return $user_id;
 }
 
+/**
+ * Получение пароля пользователя
+ * @param mysqli $connection
+ * @param $email
+ * @return string|null
+ *
+ */
+function find_password (mysqli $connection, $email): ?string {
+    $sql = "SELECT password FROM `user` WHERE email = '$email'";
+    $result = mysqli_query($connection, $sql);
+    $user_password = mysqli_fetch_assoc($result);
+    $user_password = current($user_password);
+
+    return $user_password;
+}
+
+/**
+ * Получение имени пользователя
+ * @param mysqli $connection
+ * @param $email
+ * @return string|null
+ */
+function find_name (mysqli $connection, $email): ?string
+{
+    $sql = "SELECT name FROM `user` WHERE email = '$email'";
+    $result = mysqli_query($connection, $sql);
+    $user_name = mysqli_fetch_assoc($result);
+    $user_name = current($user_name);
+
+    return $user_name;
+}

@@ -18,7 +18,8 @@ if ($lot) {
     $title = $lot['title'];
     $page_content = include_template('lot.php',[
         'lot' => $lot,
-        'categories' => $categories
+        'categories' => $categories,
+        'is_auth' => $is_auth
     ]);
 
 } else {
