@@ -14,9 +14,12 @@ function getUserData(array $array) : array
     return $user_data;
 }
 
-
-
-
+/**
+ * Проверяет на ошибки поле e-mail
+ * @param $email
+ * @param $connection
+ * @return string|null
+ */
 function validate_user_email($email, $connection) {
     if (empty($email)) {
         return 'Введите email';
@@ -37,6 +40,11 @@ function validate_user_email($email, $connection) {
     return null;
 }
 
+/**
+ * Проверяет на ошибки поле пароль
+ * @param $password
+ * @return string|null
+ */
 function validate_user_password($password) {
     if (empty($password)) {
         return 'Введите пароль';
@@ -45,6 +53,11 @@ function validate_user_password($password) {
     return null;
 }
 
+/**
+ * Проверяет на ошибки поле имя
+ * @param $name
+ * @return string|null
+ */
 function validate_user_name($name) {
     if (empty($name)) {
         return 'Введите имя';
@@ -53,6 +66,11 @@ function validate_user_name($name) {
     return null;
 }
 
+/**
+ * Проверяет на ошибки поле контакты
+ * @param $contacts
+ * @return string|null
+ */
 function validate_user_contacts($contacts) {
     if (empty($contacts)) {
         return 'Напишите как с вами связаться';
@@ -61,7 +79,12 @@ function validate_user_contacts($contacts) {
     return null;
 }
 
-
+/**
+ * Проверка массива ошибок на заполненность
+ * @param $user
+ * @param $connection
+ * @return array
+ */
 function validate_sign_up($user, $connection) {
     $errors = [];
 
