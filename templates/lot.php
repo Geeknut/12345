@@ -33,11 +33,13 @@
                             Мин. ставка <span><?=htmlspecialchars($lot['step_rate']); ?> р</span>
                         </div>
                     </div>
-                    <form class="lot-item__form" action="https://echo.htmlacademy.ru" method="post" autocomplete="off">
-                        <p class="lot-item__form-item form__item form__item--invalid">
+                    <form class="lot-item__form" action="/lot.php?id=<?=htmlspecialchars($lot['id']); ?>" method="post" autocomplete="off">
+                        <?php $classname = isset($error) ? "form__item--invalid" : "";
+                        $value = isset($cost) ? $cost : ""; ?>
+                        <p class="lot-item__form-item form__item <?=$classname;?>">
                             <label for="cost">Ваша ставка</label>
-                            <input id="cost" type="text" name="cost" placeholder="12 000">
-                            <span class="form__error">Введите наименование лота</span>
+                            <input id="cost" type="text" name="cost" placeholder="12 000" value="<?= $value;?>">
+                            <span class="form__error"><?=$error?></span>
                         </p>
                         <button type="submit" class="button">Сделать ставку</button>
                     </form>

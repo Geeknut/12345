@@ -23,4 +23,6 @@ SELECT l.id, l.title, c.title FROM lot l INNER JOIN category c ON c.id = l.categ
 UPDATE lot SET title = 'DC' WHERE id = 1;
 
 /*получить список самых свежих ставок для лота по его идентификатору.*/
-SELECT r.id, r.create_time, r.price  FROM rate r INNER JOIN lot l ON r.lot_id = l.id WHERE l.id = 1 ORDER BY r.create_time DESC;
+SELECT r.id, r.create_time, r.price FROM rate r INNER JOIN lot l ON r.lot_id = l.id WHERE l.id = 1 ORDER BY r.create_time DESC;
+
+SELECT MAX(r.price) FROM rate r, lot l WHERE l.id = 1;

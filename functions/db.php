@@ -225,3 +225,58 @@ function find_name (mysqli $connection, $email): ?string
 
     return $user_name;
 }
+
+function get_rates($connection)
+{
+    $sql = "SELECT l.id, l.image, l.title AS lot_title, c.title AS category_title, r.create_time, r.price FROM rate r, lot l, category c where r.lot_id = l.id and c.id = l.category_id and r.user_id = 19 ORDER BY r.create_time DESC";
+
+    $result = mysqli_query($connection, $sql);
+    $rates = mysqli_fetch_all($result, MYSQLI_ASSOC);
+
+    return $rates;
+}
+
+function get_max_cost($connection)
+{
+    $sql = "SELECT MAX(r.price) FROM rate r, lot l WHERE l.id = 4";
+
+    $result = mysqli_query($connection, $sql);
+    $max_cost = mysqli_fetch_assoc($result);
+    $max_cost = $max_cost['MAX(r.price)'];
+
+    return $max_cost;
+}
+
+function add_rate(mysqli $connection, $cost, $user_id, $id) {
+    $sgl = 'INSERT INTO rate
+(price, user_id, lot_id) VALUES (?, ?, ?)';
+
+
+
+
+    $stmt = db_get_prepare_stmt($connection, $sgl, [
+        $cost,
+        $user_id['id'],
+        $id
+    ]);
+
+
+    $res = mysqli_stmt_execute($stmt);
+
+    if (!$res) {
+        die('Ошибка в выполнении запроса');
+    }
+
+    $rate_id = mysqli_insert_id($connection);
+
+    return $rate_id;
+}
+
+function find_user_id (mysqli $connection, $user_name)
+{
+    $sql = "SELECT id FROM `user` WHERE name = '$user_name'";
+    $result = mysqli_query($connection, $sql);
+    $user_id = mysqli_fetch_assoc($result);
+
+    return $user_id;
+}
